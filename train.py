@@ -81,7 +81,7 @@ def train_model():
         json.dump(data, f)
 
 def display():
-    # -- Display -- #
+    ############### Display result ###############
     # Error line #
     plt.plot(losses)
     plt.figure(figsize=(12, 8))
@@ -96,7 +96,7 @@ def display():
     plt.plot(X, Y, color="red")
     plt.show()
     plt.close()
-    # -- Display -- #
+    ############### Display result ###############
 
 def main():
     init_var()    
