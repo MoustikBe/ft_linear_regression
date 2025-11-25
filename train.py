@@ -4,33 +4,32 @@ import re
 import random 
 import numpy as np
 
-def main():
+w_real, b_real = 0, 0
+y, x, losses = [], [], []
 
+def init_var():
+    global x, y
     with open("data.csv") as f:
         newcontent = f.read().strip().split('\n')
     
-    y = []
-    x = []
     for line in newcontent[1:]:
         k, p = line.split(',')
         x.append(int(k))
         y.append(int(p))
         print(line)
+
+def train_model():
+    global losses, w_real, b_real
+    # -- Normlisation of the data to avoid UDGE numbers -- # 
     x_min, x_max = min(x), max(x)
     y_min, y_max = min(y), max(y)
-
-    # -- Normlisation of the data to avoid UDGE numbers -- # 
     x_norm = [(xi - x_min) / (x_max - x_min) for xi in x]
     y_norm = [(yi - y_min) / (y_max - y_min) for yi in y]
     # -- Normlisation of the data to avoid UDGE numbers -- #
-    
-    # -- Number of data in the dataset -- #
     m = len(x)
-    # -- Number of data in the dataset -- #
     w = 0
     b = 0
     lr = 0.1
-    losses = []
     
     best_loss = float('inf')
     patience_count = 0
@@ -78,6 +77,7 @@ def main():
     with open(".prog_data.json", "w") as f:
         json.dump(data, f)
 
+def display():
     # -- Display -- #
     # Error Line #
     plt.plot(losses)
@@ -96,6 +96,11 @@ def main():
     plt.show()
     plt.close()
     # -- Display -- #
+
+def main():
+    init_var()    
+    train_model()
+    display()
 
 if (__name__ == "__main__"):
     main()
