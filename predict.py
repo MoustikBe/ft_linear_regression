@@ -18,11 +18,16 @@ def main():
             x.append(NewStr)
             y.append(NewStr2)
 
-
+    x_min, x_max = 0, 20000
+    y_min, y_max = 0, 20000
+    plt.figure(figsize=(8, 6))
     plt.xlabel("Milage")
     plt.ylabel("Price")
-    plt.axis([0, 20, 0, 20])
-    plt.scatter(x, y, color='blue', s=50, marker='o')
+    plt.xlim(x_min, x_max)
+    plt.ylim(y_min, y_max)
+    plt.xticks(range(x_min, x_max + 1, 2000))
+    plt.yticks(range(y_min, y_max + 1, 2000))
+    plt.scatter(x, y, s=30)
     plt.show()
     plt.close()
 
