@@ -8,6 +8,7 @@ w_real, b_real = 0, 0
 y, x, losses = [], [], []
 
 def init_var():
+    ############### Collecting data from dataset ###############
     global x, y
     with open("data.csv") as f:
         newcontent = f.read().strip().split('\n')
@@ -17,24 +18,27 @@ def init_var():
         x.append(int(k))
         y.append(int(p))
         print(line)
+    ############### Collecting data from dataset ###############
 
 def train_model():
     global losses, w_real, b_real
+
+    ############### Variable declaration ###############
     # -- Normlisation of the data to avoid UDGE numbers -- # 
     x_min, x_max = min(x), max(x)
     y_min, y_max = min(y), max(y)
     x_norm = [(xi - x_min) / (x_max - x_min) for xi in x]
     y_norm = [(yi - y_min) / (y_max - y_min) for yi in y]
-    # -- Normlisation of the data to avoid UDGE numbers -- #
+    # ------------------------------------------------------#
     m = len(x)
     w = 0
     b = 0
-    lr = 0.1
-    
+    lr = 0.1    
     best_loss = float('inf')
     patience_count = 0
     delta = 0.0001
-    # -- Formula the caculate theta0 and theta1 -- # 
+    ############### Variable declaration ###############
+    ############### Training the model ###############
     iteration = 3000
     for epoch in range(iteration):
         dw = 0
@@ -65,34 +69,31 @@ def train_model():
         losses.append(loss)
         w = w - lr*dw
         b = b - lr*db
-    # -- Formula the caculate theta0 and theta1 -- # 
+    ############### Training the model ###############
 
     # -- Re adapting the data for the true value -- #
     w_real = w * (y_max - y_min) / (x_max - x_min)
     b_real = b * (y_max - y_min) + y_min - w_real * x_min
-    print(w_real, b_real)
-    # -- Re adapting the data for the true value -- #
 
+    # -- Writing in the json the thetas value -- # 
     data = {"theta0" : b_real, "theta1" : w_real}
     with open(".prog_data.json", "w") as f:
         json.dump(data, f)
 
 def display():
     # -- Display -- #
-    # Error Line #
+    # Error line #
     plt.plot(losses)
-    # Error Line #
     plt.figure(figsize=(12, 8))
     plt.scatter(x, y, s=40)
     plt.title("Real_Value") 
     plt.xlabel("Milage")
     plt.ylabel("Price")
     plt.tight_layout()
-    # Line 
+    # Data line #
     X = np.linspace(min(x), max(x), 100)
     Y = w_real*X+b_real
     plt.plot(X, Y, color="red")
-    # Line 
     plt.show()
     plt.close()
     # -- Display -- #
