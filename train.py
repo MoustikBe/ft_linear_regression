@@ -3,6 +3,7 @@ import json
 import re
 import random 
 import numpy as np
+import argparse 
 
 w_real, b_real = 0, 0
 y, x, losses = [], [], []
@@ -81,6 +82,10 @@ def train_model():
         json.dump(data, f)
 
 def display():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--show-learning", action="store_true")
+    args = parser.parse_args()
+    print(args.show_learning)
     ############### Display result ###############
     # Error line #
     plt.plot(losses)
